@@ -31,16 +31,21 @@ jobs:
 
       - name: Create RDP User with Simple Password
         run: |
-          $password = "Rdp!2026@GH"
-          $securePass = ConvertTo-SecureString $password -AsPlainText -Force
+       $password = "Rdp!2026@GH"
+       $securePass = ConvertTo-SecureString $password -AsPlainText -Force
 
-          if (Get-LocalUser -Name "RDP" -ErrorAction SilentlyContinue) {
-              Remove-LocalUser -Name "RDP"
-          }
+       if (Get-LocalUser -Name "RDP" -ErrorAction SilentlyContinue) {
+        Remove-LocalUser -Name "RDP"
+       }
 
-          New-LocalUser -Name "RDP" -Password $securePass -AccountNeverExpires -PasswordNeverExpires
-          Add-LocalGroupMember -Group "Administrators" -Member "RDP"
-          Add-LocalGroupMember -Group "Remote Desktop Users" -Member "RDP"
+       New-LocalUser `
+       -Name "RDP" `
+       -Password $securePass `
+       -AccountNeverExpires `
+       -PasswordNeverExpires
+
+       Add-LocalGroupMember -Group "Administrators" -Member "RDP"
+       Add-LocalGroupMember -Group "Remote Desktop Users" -Member "RDP"
 
           echo "RDP_USER=RDP" >> $env:GITHUB_ENV
           echo "RDP_PASS=$password" >> $env:GITHUB_ENV
