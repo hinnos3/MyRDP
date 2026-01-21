@@ -43,20 +43,21 @@ jobs:
           $securePass = ConvertTo-SecureString $password -AsPlainText -Force
 
           if (Get-LocalUser -Name $username -ErrorAction SilentlyContinue) {
-              Remove-LocalUser -Name $username
+          Remove-LocalUser -Name $username
           }
 
           New-LocalUser `
-            -Name $username `
-            -Password $securePass `
-            -AccountNeverExpires `
-            -PasswordNeverExpires
+          -Name $username `
+          -Password $securePass `
+          -AccountNeverExpires `
+          -PasswordNeverExpires
 
           Add-LocalGroupMember -Group "Administrators" -Member $username
           Add-LocalGroupMember -Group "Remote Desktop Users" -Member $username
 
           echo "RDP_USER=$username" >> $env:GITHUB_ENV
           echo "RDP_PASS=$password" >> $env:GITHUB_ENV
+
 
       - name: Install Tailscale
         shell: powershell
