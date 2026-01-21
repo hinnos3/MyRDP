@@ -38,7 +38,7 @@ jobs:
         shell: powershell
         run: |
           $username = "RDP"
-          $password = "Rdp!2026@GH"
+          $password = "Setinf@2026"
 
           $securePass = ConvertTo-SecureString $password -AsPlainText -Force
 
